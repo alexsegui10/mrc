@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MRC Sport — Taller Mecánico Ontinyent</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,800;1,900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+/* ── BASE TOKENS ── */
+:root{
+  --bg:#080808;--bg2:#111;--bg3:#1a1a1a;
+  --text:#ffffff;--muted:#888;
+  --accent:#D0002A;--accent2:#a80020;
+  --border:rgba(255,255,255,0.07);
+  --card:#141414;--nav:rgba(8,8,8,0.96);
+  --radius:0px;--hw:900;
+}
+/* ── VARIANT B: TECHNICAL ── */
+[data-v="technical"]{
+  --bg:#0b0e14;--bg2:#0f1318;--bg3:#141820;
+  --text:#dde2ea;--muted:#6a7585;
+  --border:rgba(70,110,180,0.12);--card:#0f1318;
+  --radius:2px;--hw:800;
+}
+/* ── VARIANT C: PREMIUM ── */
+[data-v="premium"]{
+  --bg:#0d0d0d;--bg2:#181818;--bg3:#1e1e1e;
+  --text:#f0ede8;--muted:#6e6b66;
+  --border:rgba(255,255,255,0.06);--card:#161616;
+  --radius:1px;--hw:800;
+}
+/* ── VARIANT D: MINIMAL ── */
+[data-v="minimal"]{
+  --bg:#f7f6f3;--bg2:#ffffff;--bg3:#edecea;
+  --text:#111111;--muted:#666;
+  --accent:#C8001E;--accent2:#9e0018;
+  --border:rgba(0,0,0,0.08);--card:#ffffff;
+  --nav:rgba(247,246,243,0.96);--radius:2px;--hw:900;
+}
+
+body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font-size:16px;line-height:1.6;transition:background .3s,color .3s}
+h1,h2,h3,h4{font-family:'Barlow Condensed',sans-serif;font-weight:var(--hw,900);line-height:1.05;text-transform:uppercase;letter-spacing:.01em}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--accent)}
+
+/* ── LOGO ── */
+.logo-box{background:transparent!important;padding:0!important;overflow:visible!important;height:auto!important;display:inline-flex!important;align-items:center}
+.logo-box img{height:40px!important;width:auto!important;margin-top:0!important;filter:invert(1) hue-rotate(180deg);display:block}
+[data-v="minimal"] .logo-box img{filter:none}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--nav);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);height:68px;display:flex;align-items:center}
+.nav-in{max-width:1240px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;width:100%}
+.logo-box{background:white;padding:3px 10px;display:inline-flex;align-items:center}
+.logo-box img{height:34px;width:auto;display:block}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--accent)}
+.cta-sm{padding:8px 22px;background:var(--accent);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:background .2s;border-radius:var(--radius)}
+.cta-sm:hover{background:var(--accent2)}
+@media(max-width:768px){.nav-links{display:none}}
+
+/* ── CONTAINER ── */
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;background:var(--accent);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:background .2s,transform .15s;border-radius:var(--radius)}
+.btn:hover{background:var(--accent2);transform:translateY(-1px)}
+.btn-o{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-o:hover{border-color:var(--accent);color:var(--accent);background:transparent}
+
+/* ── SECTION LABEL ── */
+.lbl{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.lbl::after{content:'';height:1px;width:36px;background:var(--accent)}
+.sec-title{font-size:clamp(34px,5vw,62px);color:var(--text);margin-bottom:14px}
+
+/* ── IMG PLACEHOLDER ── */
+.img-ph{position:relative;overflow:hidden;background:var(--card)}
+.img-ph::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 18px,rgba(255,255,255,.025) 18px,rgba(255,255,255,.025) 36px)}
+[data-v="minimal"] .img-ph::before{background:repeating-linear-gradient(45deg,transparent,transparent 18px,rgba(0,0,0,.04) 18px,rgba(0,0,0,.04) 36px)}
+.img-ph .ph-lbl{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);opacity:.55}
+
+/* services show/hide by viewport */
+.svc-desktop{display:block}
+.svc-mobile{display:none}
+@media(max-width:900px){
+  .svc-desktop .wrap>div[style]{grid-template-columns:repeat(2,1fr)!important}
+}
+/* ── SERVICE GRID ── */
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
+@media(max-width:1100px){.svc-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){.svc-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){#servicios .wrap>div[style]{grid-template-columns:repeat(2,1fr)!important}}
+
+/* ═══ MOBILE ═══ */
+@media(max-width:768px){
+  section{padding:56px 0}
+  .wrap{padding:0 16px}
+  .nav-links{display:none}
+  /* hero motorsport */
+  .ms-photo-side{position:absolute!important;top:68px!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;clip-path:none!important;opacity:.18!important}
+  .ms-photo-side img{width:100%!important;height:100%!important;object-fit:cover!important}
+  .ms-left-stripe,.ms-diagonal{display:none!important}
+  .ms-content{max-width:100%!important;padding-bottom:130px!important}
+  .ms-content h1{font-size:clamp(48px,14vw,72px)!important}
+  .ms-btns{flex-direction:column!important;gap:10px!important;align-items:stretch!important}
+  .ms-btns a{justify-content:center!important}
+  .ms-stats .s-num{font-size:24px!important}
+  .ms-stats .s-lbl{font-size:9px!important}
+  /* hero technical */
+  .tech-hero-grid{grid-template-columns:1fr!important;gap:32px!important}
+  .tech-right-panel{display:none!important}
+  /* hero minimal */
+  .min-hero-grid{grid-template-columns:1fr!important}
+  .min-hero-photo{display:none!important}
+  /* hero premium */
+  .prem-hero-btns{flex-direction:column!important;align-items:stretch!important}
+  .prem-hero-btns a{justify-content:center!important}
+  .prem-stats{flex-wrap:wrap!important;gap:24px!important;justify-content:center!important;margin-top:40px!important}
+  /* marquee label */
+  .mq-label{display:none!important}
+  /* before/after now works on mobile */
+  /* services: hide desktop grid, show compact list */
+  .svc-desktop{display:none!important}
+  .svc-mobile{display:block!important}
+  /* hide heavy sections on mobile */
+  .sec-porq{display:none!important}
+  .sec-proceso{display:none!important}
+  /* new services grid mobile */
+  #servicios .wrap>div[style]{grid-template-columns:1fr 1fr!important}
+  #servicios .wrap>div>div{padding:24px 18px!important}
+  .svc-desc{display:none!important}
+  .svc-card h3{font-size:16px!important;margin-bottom:6px!important}
+  .svc-cta{display:none!important}
+  /* pillars */
+  .pillars{grid-template-columns:1fr 1fr!important}
+  .pillar{padding:24px 16px!important}
+  .p-num{font-size:48px!important}
+  /* prices */
+  .price-grid{grid-template-columns:repeat(2,1fr)!important}
+  .p-amt{font-size:36px!important}
+  /* process */
+  .proc-main{grid-template-columns:1fr!important;height:auto!important}
+  .proc-side{display:none!important}
+  .proc-main-img{height:240px!important}
+  .proc-bottom{grid-template-columns:1fr 1fr!important;height:auto!important}
+  .proc-bottom>*{height:140px!important}
+  /* before/after */
+  .ba-nameplate{display:none!important}
+  /* testimonials */
+  .testi-grid{grid-template-columns:1fr!important}
+  /* faq */
+  .faq-two-col{grid-template-columns:1fr!important}
+  .faq-intro{margin-bottom:28px}
+  /* footer compact on mobile */
+  .footer-grid{grid-template-columns:1fr!important;gap:0!important}
+  .footer-col-svc{display:none!important}
+  .footer-col-contact{display:none!important}
+  .footer-col-brand{padding-bottom:20px!important}
+  .footer-bottom{flex-direction:column!important;gap:12px!important;text-align:center!important}
+  /* variant switcher */
+  .var-sw{left:8px!important;right:8px!important;transform:none!important;bottom:14px!important;overflow-x:auto!important;border-radius:12px!important;gap:3px!important;padding:6px 8px!important;justify-content:flex-start!important;scrollbar-width:none}
+  .var-sw::-webkit-scrollbar{display:none}
+  .var-sw button{padding:6px 11px!important;font-size:11px!important;white-space:nowrap!important;border-radius:20px!important}
+  .var-sw>span{display:none!important}
+  /* wa fab */
+  .wa-fab{bottom:72px!important}
+}
+@media(max-width:640px){
+  .ba-section .wrap>div{grid-template-columns:1fr!important;gap:0!important}
+  .ba-section .wrap>div>div:nth-child(2){flex-direction:row!important;padding:12px 0!important;height:auto!important}
+  .ba-section .wrap>div>div:nth-child(2)>div:first-child,
+  .ba-section .wrap>div>div:nth-child(2)>div:last-child{display:none!important}
+  /* flecha apunta hacia abajo en móvil */
+  .ba-arrow{transform:rotate(90deg)!important}
+}
+@media(max-width:480px){
+  .pillars{grid-template-columns:1fr!important}
+  .proc-bottom{grid-template-columns:1fr!important}
+  .proc-bottom>*{height:140px!important}
+  .price-grid{grid-template-columns:1fr 1fr!important}
+}
+.svc-card{background:var(--card);border:none;border-top:2px solid var(--accent);padding:28px 24px;position:relative;overflow:hidden;cursor:default;transition:background .2s}
+.svc-card:hover{background:var(--bg2)}
+.svc-ico{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:13px;letter-spacing:.18em;color:var(--accent);margin-bottom:12px}
+/* ── BEFORE/AFTER ── */
+.ba-wrap{position:relative;overflow:hidden;cursor:ew-resize;user-select:none;border-radius:var(--radius)}
+.ba-lbl{position:absolute;top:16px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.15em;padding:4px 14px;z-index:10;text-transform:uppercase}
+.ba-handle{position:absolute;top:0;bottom:0;width:3px;background:var(--accent);z-index:9;transform:translateX(-50%)}
+.ba-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 14px rgba(0,0,0,.5)}
+
+/* ── PILLARS ── */
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
+.pillar{background:var(--card);padding:40px 32px;text-align:center}
+.p-num{font-family:'Barlow Condensed',sans-serif;font-size:72px;font-weight:900;color:var(--accent);opacity:.12;line-height:1;margin-bottom:-16px;display:block}
+@media(max-width:900px){.pillars{grid-template-columns:repeat(2,1fr)}}
+
+/* ── PRICES ── */
+.price-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1px;background:var(--border)}
+.price-cell{background:var(--card);padding:28px 20px;text-align:center}
+.p-from{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.p-amt{font-family:'Barlow Condensed',sans-serif;font-size:52px;font-weight:900;color:var(--accent);line-height:1}
+.p-unit{font-size:22px;color:var(--muted)}
+.p-name{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text);margin-top:8px}
+
+/* ── GALLERY ── */
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:260px 200px;gap:4px}
+.gallery>*:first-child{grid-column:span 2}
+@media(max-width:700px){.gallery{grid-template-columns:1fr 1fr;grid-template-rows:auto}.gallery>*{height:160px}.gallery>*:first-child{grid-column:span 2;height:200px}}
+
+/* ── TESTIMONIALS ── */
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:22px}
+.testi{background:var(--card);border:1px solid var(--border);padding:30px;position:relative;border-radius:var(--radius)}
+.testi::before{content:'"';position:absolute;top:12px;right:20px;font-size:72px;font-family:'Barlow Condensed',sans-serif;font-weight:900;color:var(--accent);opacity:.12;line-height:1}
+.stars{color:var(--accent);font-size:13px;margin-bottom:10px}
+
+/* ── FAQ ── */
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-q{padding:20px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--text);transition:color .2s;letter-spacing:.02em;text-transform:uppercase}
+.faq-q:hover{color:var(--accent)}
+.faq-a{color:var(--muted);line-height:1.75;padding-bottom:20px;font-size:15px}
+
+/* ── CONTACT ── */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+@media(max-width:768px){.contact-grid{grid-template-columns:1fr}}
+.info-row{display:flex;align-items:flex-start;gap:14px;margin-bottom:26px}
+.info-ico{width:42px;height:42px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:13px;color:#fff;flex-shrink:0;border-radius:var(--radius)}
+.form-lbl{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;display:block}
+.form-inp{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:12px 15px;font-family:'Barlow',sans-serif;font-size:15px;outline:none;transition:border-color .2s;border-radius:var(--radius)}
+.form-inp:focus{border-color:var(--accent)}
+.form-inp::placeholder{color:var(--muted)}
+textarea.form-inp{resize:vertical;min-height:110px}
+
+/* ── MAP ── */
+.map-frame{width:100%;height:100%;border:none;filter:grayscale(100%) invert(1) contrast(.82)}
+[data-v="minimal"] .map-frame{filter:grayscale(60%) contrast(.9)}
+
+/* ── URGENCIAS ── */
+.urg{background:var(--accent);padding:15px 0}
+.urg-in{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* ── FOOTER ── */
+.footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 0 28px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:40px}
+@media(max-width:700px){.footer-grid{grid-template-columns:1fr;gap:28px}}
+
+/* ── WA FAB ── */
+.wa-fab{position:fixed;bottom:26px;right:26px;z-index:200;width:58px;height:58px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 4px 18px rgba(37,211,102,.45);transition:transform .2s,box-shadow .2s}
+.wa-fab:hover{transform:scale(1.1);box-shadow:0 6px 26px rgba(37,211,102,.55)}
+
+/* ── TWEAKS ── */
+.tw-panel{position:fixed;bottom:96px;right:26px;z-index:199;background:var(--bg2);border:1px solid var(--border);padding:20px;width:230px;box-shadow:0 8px 36px rgba(0,0,0,.55)}
+.tw-h{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.tw-h::before{content:'';width:3px;height:14px;background:var(--accent)}
+.tw-lbl{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;display:block}
+.tw-btn{display:block;width:100%;padding:8px 11px;margin-bottom:4px;background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.05em;text-align:left;cursor:pointer;transition:all .2s;border-radius:var(--radius)}
+.tw-btn.on{border-color:var(--accent);color:var(--accent);background:rgba(208,0,42,.07)}
+.tw-btn:hover:not(.on){border-color:var(--border);color:var(--text)}
+.tw-div{height:1px;background:var(--border);margin:14px 0}
+
+/* ── SECTION SPACING ── */
+section{padding:96px 0}
+
+/* ── VARIANT HERO SPECIFICS ── */
+/* Technical grid bg */
+[data-v="technical"] .tech-grid-bg{display:block}
+.tech-grid-bg{display:none}
+
+/* Premium radial */
+[data-v="premium"] .prem-radial{display:block}
+.prem-radial{display:none}
+
+/* Minimal section title underline */
+[data-v="minimal"] .sec-title::after{content:'';display:block;width:44px;height:3px;background:var(--accent);margin-top:10px}
+
+/* Red vertical stripe motorsport */
+[data-v="motorsport"] .ms-stripe{display:block}
+.ms-stripe{display:none}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState,useEffect} = React;
+const WA = 'https://wa.me/34678732866';
+const TEL = 'tel:+34962916496';
+const MAP = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3088.45!2d-0.580259!3d38.830080!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6048e5c9f3d57d%3A0x400!2sAv.%20Textil%2C%2051A%2C%2046870%20Ontinyent%2C%20Val%C3%A8ncia!5e0!3m2!1ses!2ses!4v1713520000000';
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "variant": "motorsport",
+  "showPrices": false
+}/*EDITMODE-END*/;
+
+const SERVICES = [
+  {c:'MG',t:'Mecánica General',d:'Frenos, embrague, amortiguadores, distribución y motor. Diagnóstico y reparación de cualquier avería.'},
+  {c:'AC',t:'Cambio de Aceite',d:'Aceites y filtros de primera calidad. Revisión completa de niveles incluida en cada cambio.'},
+  {c:'NM',t:'Neumáticos y Alineación',d:'Montaje, equilibrado y geometría de ruedas con maquinaria de última generación.'},
+  {c:'ITV',t:'Revisión Pre-ITV',d:'Te preparamos para pasar la ITV sin sustos. Diagnóstico completo previo a la prueba.'},
+  {c:'CB',t:'Carrocería y Pintura',d:'Reparación de abolladuras, arañazos y pintura igualada al tono original de fábrica.'},
+  {c:'AA',t:'Aire Acondicionado',d:'Recarga de gas, detección de fugas y mantenimiento completo del sistema de climatización.'},
+  {c:'DX',t:'Diagnóstico Electrónico',d:'Escáner OBD avanzado para detectar cualquier fallo en los sistemas del vehículo.'},
+  {c:'TN',t:'Tuning y Preparación',d:'Modificaciones deportivas, puesta a punto de motor y preparación de rendimiento.'},
+  {c:'CL',t:'Coches Clásicos',d:'Cuidado experto de Youngtimers y vehículos de colección. Piezas originales, trato especial.'},
+];
+
+const PILLARS = [
+  {n:'01',t:'Sin Sorpresas',d:'Presupuesto gratuito y aprobación previa. Nunca tocamos nada sin tu visto bueno.'},
+  {n:'02',t:'Diagnóstico Preciso',d:'Escáner OBD profesional antes de cualquier reparación. Encontramos el problema real.'},
+  {n:'03',t:'Garantía de Trabajo',d:'Todos los trabajos incluyen garantía de mano de obra y los materiales utilizados.'},
+  {n:'04',t:'Atención Directa',d:'Hablas directamente con el mecánico. Sin intermediarios, sin excusas. Solo soluciones.'},
+];
+
+const TESTIMONIALS = [
+  {name:'Juan M.',car:'Seat León',txt:'Llevé el coche con avería en la distribución. Listo en 24h y precio muy ajustado. Difícil encontrar un taller tan honesto.'},
+  {name:'Carmen R.',car:'VW Golf',txt:'Oscar siempre explica exactamente qué tiene el coche y por qué. Sin sorpresas en la factura. Llevo 3 años siendo clienta.'},
+  {name:'Paco T.',car:'Alfa Romeo 75 (clásico)',txt:'Especialistas en mi Alfa de colección. Saben tratar los coches clásicos con el mimo que merecen. Muy difícil de encontrar hoy.'},
+  {name:'Miquel S.',car:'BMW Serie 3',txt:'Rápidos, profesionales y honestos. Llevo 5 años yendo con todos mis coches. La confianza que transmiten es total.'},
+];
+
+const FAQS = [
+  {q:'¿Hacéis presupuesto sin compromiso?',a:'Sí, el diagnóstico y presupuesto son completamente gratuitos. Nunca realizamos ningún trabajo sin tu aprobación previa.'},
+  {q:'¿Tenéis vehículo de cortesía?',a:'Sí, disponemos de vehículo de sustitución sujeto a disponibilidad. Consúltanos al reservar la cita.'},
+  {q:'¿Trabajáis con seguros?',a:'Sí, gestionamos directamente los trámites con todas las compañías aseguradoras para hacértelo más sencillo.'},
+  {q:'¿Cuánto tarda una revisión pre-ITV?',a:'Entre 45 y 90 minutos según el estado del vehículo. Si detectamos algo, te avisamos al momento.'},
+  {q:'¿Puedo traer el coche sin cita previa?',a:'Preferimos cita previa para atenderte sin esperas. Para urgencias y averías, llámanos directamente al 96 291 64 96.'},
+];
+
+const PRICES = [
+  {from:'desde',amt:'39',unit:'€',label:'Cambio de aceite'},
+  {from:'desde',amt:'29',unit:'€',label:'Revisión Pre-ITV'},
+  {from:'desde',amt:'49',unit:'€',label:'Revisión frenos'},
+  {from:'desde',amt:'12',unit:'€/ud',label:'Montaje neumático'},
+  {from:'desde',amt:'25',unit:'€',label:'Diagnóstico OBD'},
+  {from:'gratis',amt:'0',unit:'€',label:'Presupuesto'},
+];
+
+function Ph({label,style}){
+  return(
+    <div className="img-ph" style={style}>
+      <div className="ph-lbl">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="1" stroke="currentColor" strokeWidth="1.5"/><circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" strokeWidth="1.5"/><path d="M21 15l-5-5L5 21" stroke="currentColor" strokeWidth="1.5"/></svg>
+        {label}
+      </div>
+    </div>
+  );
+}
+
+function BeforeAfter(){
+  return(
+    <div className="wrap">
+      <div style={{display:'grid',gridTemplateColumns:'1fr auto 1fr',gap:'0',alignItems:'stretch',maxWidth:'960px',margin:'0 auto'}}>
+        {/* ANTES */}
+        <div style={{position:'relative',overflow:'hidden',borderRadius:'var(--radius)',border:'1px solid var(--border)'}}>
+          <img src="uploads/pasted-1776590673785-0.png" alt="Antes"
+            style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:'center',display:'block',aspectRatio:'4/3',filter:'grayscale(35%) brightness(.85)'}}/>
+          <div style={{position:'absolute',inset:0,background:'linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 50%)'}}/>
+          {/* Label */}
+          <div style={{position:'absolute',top:'14px',left:'14px',background:'rgba(0,0,0,.75)',backdropFilter:'blur(6px)',padding:'6px 14px',border:'1px solid rgba(255,255,255,.12)'}}>
+            <div style={{fontFamily:'Barlow Condensed',fontSize:'9px',fontWeight:700,letterSpacing:'.22em',color:'rgba(255,255,255,.5)',marginBottom:'1px'}}>ESTADO ORIGINAL</div>
+            <div style={{fontFamily:'Barlow Condensed',fontSize:'18px',fontWeight:900,color:'#fff',lineHeight:1,textTransform:'uppercase'}}>Antes</div>
+          </div>
+          {/* Bottom info */}
+          <div style={{position:'absolute',bottom:'14px',left:'14px',right:'14px'}}>
+            <div style={{fontFamily:'Barlow Condensed',fontSize:'13px',color:'rgba(255,255,255,.6)',letterSpacing:'.08em',textTransform:'uppercase'}}>Ford Sierra · Carrocería original</div>
+          </div>
+        </div>
+
+        {/* Arrow divider */}
+        <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:'0 20px',gap:'8px',flexShrink:0}}>
+          <div style={{width:'1px',flex:1,background:'var(--border)'}}/>
+          <div className="ba-arrow" style={{width:'44px',height:'44px',borderRadius:'50%',background:'var(--accent)',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 4px 16px rgba(208,0,42,.35)',flexShrink:0,transition:'transform .3s'}}>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12M12 6l4 4-4 4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </div>
+          <div style={{width:'1px',flex:1,background:'var(--border)'}}/>
+        </div>
+
+        {/* DESPUÉS */}
+        <div style={{position:'relative',overflow:'hidden',borderRadius:'var(--radius)',border:'1px solid var(--accent)',boxShadow:'0 0 0 1px var(--accent)'}}>
+          <img src="uploads/pasted-1776590667861-0.png" alt="Después"
+            style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:'center',display:'block',aspectRatio:'4/3'}}/>
+          <div style={{position:'absolute',inset:0,background:'linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 50%)'}}/>
+          {/* Label */}
+          <div style={{position:'absolute',top:'14px',right:'14px',background:'rgba(208,0,42,.9)',backdropFilter:'blur(6px)',padding:'6px 14px'}}>
+            <div style={{fontFamily:'Barlow Condensed',fontSize:'9px',fontWeight:700,letterSpacing:'.22em',color:'rgba(255,255,255,.7)',marginBottom:'1px'}}>RESULTADO FINAL</div>
+            <div style={{fontFamily:'Barlow Condensed',fontSize:'18px',fontWeight:900,color:'#fff',lineHeight:1,textTransform:'uppercase'}}>Después</div>
+          </div>
+          {/* Bottom info */}
+          <div style={{position:'absolute',bottom:'14px',left:'14px',right:'14px'}}>
+            <div style={{fontFamily:'Barlow Condensed',fontSize:'13px',color:'rgba(255,255,255,.7)',letterSpacing:'.08em',textTransform:'uppercase'}}>RS Cosworth · Llantas BBS doradas · Preparación sport</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Car nameplate */}
+      <div style={{textAlign:'center',marginTop:'20px'}}>
+        <span style={{fontFamily:'Barlow Condensed',fontSize:'14px',fontWeight:700,letterSpacing:'.18em',textTransform:'uppercase',color:'var(--muted)'}}>Ford Sierra RS Cosworth · Restauración completa · MRC Sport</span>
+      </div>
+    </div>
+  );
+}
+
+function FAQItem({q,a}){
+  const [o,sO]=useState(false);
+  return(
+    <div className="faq-item">
+      <div className="faq-q" onClick={()=>sO(!o)}>
+        <span>{q}</span>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{transform:o?'rotate(180deg)':'none',transition:'transform .3s',color:'var(--accent)',flexShrink:0}}><path d="M4 7l5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>
+      </div>
+      {o&&<div className="faq-a">{a}</div>}
+    </div>
+  );
+}
+
+/* ─── HERO VARIANTS ─── */
+function HeroMotorsport(){
+  return(
+    <section style={{minHeight:'100vh',position:'relative',overflow:'hidden',display:'flex',alignItems:'center',paddingTop:'68px',background:'var(--bg)'}}>
+      {/* Left red stripe */}
+      <div className="ms-stripe ms-left-stripe" style={{position:'absolute',top:0,left:0,bottom:0,width:'4px',background:'var(--accent)',zIndex:3}}/>
+      {/* Diagonal fill */}
+      <div className="ms-diagonal" style={{position:'absolute',right:0,top:0,bottom:0,width:'52%',clipPath:'polygon(10% 0,100% 0,100% 100%,0% 100%)',background:'var(--bg2)',zIndex:1}}/>
+      {/* Diagonal red accent slash */}
+      <div className="ms-diagonal" style={{position:'absolute',right:'52%',top:0,bottom:0,width:'3px',background:'var(--accent)',transform:'skewX(-6deg) translateX(1px)',zIndex:2}}/>
+
+      {/* Right image — foto real del taller */}
+      <div className="ms-photo-side" style={{position:'absolute',right:0,top:68,bottom:0,width:'54%',clipPath:'polygon(10% 0,100% 0,100% 100%,0% 100%)',overflow:'hidden',zIndex:1}}>
+        <img src="uploads/Gemini_Generated_Image_8tzpj98tzpj98tzp (1).png" alt="MRC Sport — taller y vehículos" style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:'center 60%'}}/>
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(to right, var(--bg) 0%, rgba(8,8,8,0.5) 30%, transparent 60%)'}}/>
+      </div>
+
+      <div className="wrap" style={{position:'relative',zIndex:3,width:'100%',paddingBottom:'120px'}}>
+        <div className="ms-content" style={{maxWidth:'560px'}}>
+          <div className="lbl">Taller Mecánico · Ontinyent, Valencia</div>
+          <h1 style={{fontSize:'clamp(64px,9.5vw,130px)',lineHeight:.88,marginBottom:'24px'}}>
+            TU COCHE<br/>
+            <span style={{color:'var(--accent)',fontStyle:'italic'}}>MERECE</span><br/>
+            LO MEJOR
+          </h1>
+          <p style={{fontSize:'18px',color:'var(--muted)',maxWidth:'440px',marginBottom:'38px',lineHeight:1.65,fontWeight:500}}>
+            Mecánica general, carrocería, neumáticos y tuning. Más de una década con precisión, honestidad y tecnología de vanguardia.
+          </p>
+          <div className="ms-btns" style={{display:'flex',gap:'14px',flexWrap:'wrap'}}>
+            <a href={WA} target="_blank" className="btn"><WaIcon/>Pedir cita por WhatsApp</a>
+            <a href={TEL} className="btn btn-o"><PhIcon/>96 291 64 96</a>
+          </div>
+        </div>
+      </div>
+
+      {/* Stats bar */}
+      <div style={{position:'absolute',bottom:0,left:0,right:0,borderTop:'1px solid var(--border)',background:'rgba(0,0,0,.5)',backdropFilter:'blur(10px)',zIndex:4}}>
+        <div className="wrap">
+          <div className="ms-stats" style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',padding:'16px 0',textAlign:'center'}}>
+            {[['+10','Años de experiencia'],['12','Servicios especializados'],['4.9★','Valoración media']].map(([n,l])=>(
+              <div key={l} style={{padding:'6px 0'}}>
+                <div className="s-num" style={{fontFamily:'Barlow Condensed',fontSize:'38px',fontWeight:900,color:'var(--accent)',lineHeight:1}}>{n}</div>
+                <div className="s-lbl" style={{fontSize:'12px',color:'var(--muted)',letterSpacing:'.06em',marginTop:'3px',textTransform:'uppercase'}}>{l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HeroTechnical(){
+  return(
+    <section style={{minHeight:'100vh',position:'relative',overflow:'hidden',display:'flex',alignItems:'center',paddingTop:'68px',background:'var(--bg)'}}>
+      {/* Grid */}
+      <div style={{position:'absolute',inset:0,backgroundImage:'linear-gradient(rgba(70,110,200,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(70,110,200,.06) 1px,transparent 1px)',backgroundSize:'48px 48px'}}/>
+      {/* Corner markers */}
+      {[{t:'70px',l:'0',bw:'2px 0 0 2px'},{t:'70px',r:'0',bw:'2px 2px 0 0'},{b:'0',l:'0',bw:'0 0 2px 2px'},{b:'0',r:'0',bw:'0 2px 2px 0'}].map((pos,i)=>(
+        <div key={i} style={{position:'absolute',width:'22px',height:'22px',borderColor:'var(--accent)',borderStyle:'solid',borderWidth:pos.bw,opacity:.35,...pos}}/>
+      ))}
+
+      <div className="wrap" style={{position:'relative',zIndex:2,width:'100%',paddingTop:'40px',paddingBottom:'100px'}}>
+        <div className="tech-hero-grid" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'72px',alignItems:'center'}}>
+          <div className="tech-left">
+            <div style={{fontFamily:'Barlow Condensed',fontSize:'11px',fontWeight:700,letterSpacing:'.28em',color:'var(--accent)',marginBottom:'22px',display:'flex',alignItems:'center',gap:'12px'}}>
+              <div style={{width:'28px',height:'1px',background:'var(--accent)'}}/>SISTEMA DE DIAGNÓSTICO AVANZADO
+            </div>
+            <h1 style={{fontSize:'clamp(52px,7.5vw,108px)',lineHeight:.9,marginBottom:'26px'}}>
+              PRECISIÓN<br/>TÉCNICA<br/><span style={{color:'var(--accent)'}}>GARANTIZADA</span>
+            </h1>
+            <p style={{color:'var(--muted)',fontSize:'17px',lineHeight:1.7,marginBottom:'34px',borderLeft:'2px solid var(--accent)',paddingLeft:'16px'}}>
+              Taller equipado con tecnología OBD de última generación. Detectamos el problema exacto antes de tocar ninguna pieza.
+            </p>
+            <div style={{display:'flex',gap:'12px',flexWrap:'wrap'}}>
+              <a href={WA} target="_blank" className="btn">Solicitar diagnóstico</a>
+              <a href={TEL} className="btn btn-o">Llamar ahora</a>
+            </div>
+          </div>
+          <div className="tech-right-panel">
+            <Ph label="equipo diagnóstico" style={{height:'380px',border:'1px solid var(--border)'}}/>
+            <div style={{marginTop:'14px',display:'grid',gap:'8px'}}>
+              {[['Diagnóstico electrónico',92],['Mecánica avanzada',98],['Carrocería y pintura',88]].map(([lbl,p])=>(
+                <div key={lbl}>
+                  <div style={{display:'flex',justifyContent:'space-between',fontSize:'12px',fontFamily:'Barlow Condensed',fontWeight:700,letterSpacing:'.1em',color:'var(--muted)',marginBottom:'4px'}}>
+                    <span>{lbl}</span><span style={{color:'var(--accent)'}}>{p}%</span>
+                  </div>
+                  <div style={{height:'2px',background:'var(--border)'}}>
+                    <div style={{width:`${p}%`,height:'100%',background:'var(--accent)'}}/>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HeroPremium(){
+  return(
+    <section style={{minHeight:'100vh',position:'relative',overflow:'hidden',display:'flex',alignItems:'center',justifyContent:'center',paddingTop:'68px',background:'var(--bg)'}}>
+      <div className="prem-radial" style={{position:'absolute',inset:0,background:'radial-gradient(ellipse at 60% 50%, rgba(208,0,42,.05) 0%, transparent 60%)'}}/>
+      <div style={{position:'absolute',bottom:0,left:0,right:0,height:'1px',background:'linear-gradient(to right, transparent, var(--accent), transparent)'}}/>
+
+      <div className="wrap" style={{position:'relative',zIndex:2,textAlign:'center',paddingTop:'60px',paddingBottom:'120px'}}>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'16px',marginBottom:'40px'}}>
+          <div style={{height:'1px',width:'56px',background:'var(--accent)'}}/>
+          <span style={{fontFamily:'Barlow Condensed',fontSize:'12px',letterSpacing:'.28em',color:'var(--accent)'}}>TALLER MECÁNICO · ONTINYENT</span>
+          <div style={{height:'1px',width:'56px',background:'var(--accent)'}}/>
+        </div>
+        <h1 style={{fontSize:'clamp(64px,12vw,160px)',lineHeight:.87,marginBottom:'28px',letterSpacing:'-.02em'}}>
+          EL TALLER<br/>
+          <span style={{color:'var(--accent)',fontStyle:'italic'}}>QUE TU</span><br/>
+          COCHE MERECE
+        </h1>
+        <p style={{fontSize:'20px',color:'var(--muted)',maxWidth:'500px',margin:'0 auto 44px',lineHeight:1.6}}>
+          Servicio de confianza para particulares y aficionados. Mecánica general, clásicos y preparación deportiva.
+        </p>
+        <div style={{display:'flex',gap:'16px',justifyContent:'center',flexWrap:'wrap'}}>
+          <a href={WA} target="_blank" className="btn" style={{padding:'16px 44px',fontSize:'21px'}}>Pedir cita</a>
+          <a href="#servicios" className="btn btn-o" style={{padding:'16px 44px',fontSize:'21px'}}>Ver servicios</a>
+        </div>
+        <div style={{display:'flex',gap:'56px',justifyContent:'center',marginTop:'80px',flexWrap:'wrap'}}>
+          {[['+10 años','de experiencia'],['12 servicios','especializados'],['100%','garantía']].map(([n,l])=>(
+            <div key={l}>
+              <div style={{fontFamily:'Barlow Condensed',fontSize:'32px',fontWeight:900,color:'var(--text)'}}>{n}</div>
+              <div style={{fontSize:'12px',color:'var(--muted)',letterSpacing:'.12em',marginTop:'3px',textTransform:'uppercase'}}>{l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HeroMinimal(){
+  return(
+    <section style={{minHeight:'100vh',position:'relative',overflow:'hidden',display:'flex',alignItems:'center',paddingTop:'68px',background:'var(--bg)'}}>
+      <div className="wrap min-hero-grid" style={{width:'100%',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'64px',alignItems:'center',paddingTop:'40px',paddingBottom:'80px'}}>
+        <div>
+          <div style={{display:'inline-block',background:'var(--accent)',color:'#fff',fontFamily:'Barlow Condensed',fontSize:'12px',fontWeight:700,letterSpacing:'.18em',textTransform:'uppercase',padding:'5px 14px',marginBottom:'26px',borderRadius:'var(--radius)'}}>
+            Taller Mecánico en Ontinyent
+          </div>
+          <h1 style={{fontSize:'clamp(48px,7vw,90px)',lineHeight:.93,color:'var(--text)',marginBottom:'22px'}}>
+            MECÁNICA<br/>DE <span style={{color:'var(--accent)'}}>CONFIANZA</span><br/>DESDE 2010
+          </h1>
+          <p style={{fontSize:'18px',color:'var(--muted)',lineHeight:1.7,marginBottom:'38px',maxWidth:'400px'}}>
+            Tu taller de referencia en la comarca. Diagnóstico, mecánica, carrocería, neumáticos y tuning en un solo lugar.
+          </p>
+          <div style={{display:'flex',gap:'12px',flexWrap:'wrap',alignItems:'center'}}>
+            <a href={WA} target="_blank" className="btn">Contactar por WhatsApp</a>
+            <a href={TEL} style={{display:'flex',alignItems:'center',gap:'8px',color:'var(--text)',textDecoration:'none',fontFamily:'Barlow Condensed',fontWeight:700,fontSize:'18px',letterSpacing:'.06em',textTransform:'uppercase'}}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.07 12 19.79 19.79 0 011 3.18 2 2 0 013 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              96 291 64 96
+            </a>
+          </div>
+        </div>
+        <div className="min-hero-photo">
+          <Ph label="foto del taller" style={{height:'480px',borderRadius:'var(--radius)'}}/>
+        </div>
+      </div>
+      <style>{`@media(max-width:768px){.hero-min-grid{grid-template-columns:1fr!important}}`}</style>
+    </section>
+  );
+}
+
+function BrandMarquee({variant}){
+  const SI = s=>`https://cdn.simpleicons.org/${s}/ffffff`;
+  const GH = s=>`https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/thumb/${s}.png`;
+
+  /* si = simple-icons blanco/transparente | gh = logo color en pastilla blanca */
+  const brands=[
+    {name:'Volkswagen', src:SI('volkswagen'),    t:'si'},
+    {name:'BMW',        src:SI('bmw'),           t:'si'},
+    {name:'Audi',       src:SI('audi'),          t:'si'},
+    {name:'Porsche',    src:SI('porsche'),       t:'si'},
+    {name:'Toyota',     src:SI('toyota'),        t:'si'},
+    {name:'Honda',      src:SI('honda'),         t:'si'},
+    {name:'Ford',       src:SI('ford'),          t:'si'},
+    {name:'Renault',    src:SI('renault'),       t:'si'},
+    {name:'Volvo',      src:SI('volvo'),         t:'si'},
+    {name:'Hyundai',    src:SI('hyundai'),       t:'si'},
+    {name:'Kia',        src:SI('kia'),           t:'si'},
+    {name:'Fiat',       src:SI('fiat'),          t:'si'},
+    {name:'Mercedes',   src:GH('mercedes-benz'), t:'gh'},
+    {name:'Alfa Romeo', src:GH('alfa-romeo'),    t:'gh'},
+    {name:'SEAT',       src:GH('seat'),          t:'gh'},
+    {name:'Peugeot',    src:GH('peugeot'),       t:'gh'},
+    {name:'Citroën',    src:GH('citroen'),       t:'gh'},
+    {name:'Opel',       src:GH('opel'),          t:'gh'},
+    {name:'Nissan',     src:GH('nissan'),        t:'gh'},
+    {name:'Mazda',      src:GH('mazda'),         t:'gh'},
+    {name:'Chevrolet',  src:GH('chevrolet'),     t:'gh'},
+    {name:'Jeep',       src:GH('jeep'),          t:'gh'},
+    {name:'Skoda',      src:GH('skoda'),         t:'gh'},
+    {name:'Dacia',      src:GH('dacia'),         t:'gh'},
+  ];
+  const all=[...brands,...brands];
+
+  /* CSS background-image: fallos 100% silenciosos, sin errores en consola */
+  const LogoItem=({b})=>{
+    const hover=e=>{e.currentTarget.style.opacity='1';e.currentTarget.style.transform='scale(1.08)'};
+    const leave=e=>{e.currentTarget.style.opacity='.52';e.currentTarget.style.transform='scale(1)'};
+    return(
+      <div title={b.name}
+        onMouseEnter={hover} onMouseLeave={leave}
+        style={{width:'76px',height:'34px',flexShrink:0,
+          backgroundImage:`url('${b.src}')`,backgroundSize:'contain',
+          backgroundRepeat:'no-repeat',backgroundPosition:'center',
+          filter:'brightness(0) invert(1)',
+          opacity:.52,transition:'opacity .25s,transform .25s'}}/>
+    );
+  };
+
+  return(
+    <div style={{overflow:'hidden',position:'relative',background:'#0c0c0c',
+      borderTop:'1px solid rgba(255,255,255,0.06)',borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
+      {/* etiqueta fija izquierda */}
+      <div className="mq-label" style={{position:'absolute',left:0,top:0,bottom:0,zIndex:3,
+        display:'flex',alignItems:'center',gap:'14px',
+        padding:'0 16px 0 20px',
+        background:'linear-gradient(to right,#0c0c0c 78%,transparent)'}}>
+        <div>
+          <div style={{fontFamily:'Barlow Condensed',fontSize:'10px',fontWeight:700,
+            letterSpacing:'.24em',textTransform:'uppercase',color:'var(--accent)',
+            whiteSpace:'nowrap',marginBottom:'3px'}}>Todas las marcas</div>
+          <div style={{height:'1px',background:'var(--accent)',opacity:.4}}/>
+        </div>
+        <div style={{width:'1px',height:'22px',background:'rgba(255,255,255,.08)',flexShrink:0}}/>
+      </div>
+      {/* fade derecha */}
+      <div style={{position:'absolute',top:0,right:0,bottom:0,width:'80px',
+        background:'linear-gradient(to left,#0c0c0c,transparent)',zIndex:2,pointerEvents:'none'}}/>
+      <div style={{display:'flex',alignItems:'center',width:'max-content',
+        animation:'mq 70s linear infinite',paddingLeft:'190px'}}>
+        {all.map((b,i)=>(
+          <div key={i} style={{display:'flex',alignItems:'center',padding:'18px 26px'}}>
+            <LogoItem b={b}/>
+            <div style={{width:'3px',height:'3px',borderRadius:'50%',
+              background:'var(--accent)',opacity:.22,marginLeft:'26px',flexShrink:0}}/>
+          </div>
+        ))}
+      </div>
+      <style>{`@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}`}</style>
+    </div>
+  );
+}
+function WaIcon(){return <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>}
+function PhIcon(){return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.07 12 19.79 19.79 0 011 3.18 2 2 0 013 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>}
+
+const VARIANTS = [
+  {id:'motorsport',lbl:'A — Motorsport'},
+  {id:'technical', lbl:'B — Technical'},
+  {id:'premium',   lbl:'C — Premium Dark'},
+  {id:'minimal',   lbl:'D — Minimal Claro'},
+];
+
+function App(){
+  const [tw,sTw]=useState(TWEAK_DEFAULTS);
+  const [twVis,sTwVis]=useState(false);
+  const [form,sForm]=useState({nombre:'',telefono:'',vehiculo:'',mensaje:''});
+  const [sent,sSent]=useState(false);
+
+  useEffect(()=>{
+    document.documentElement.setAttribute('data-v',tw.variant);
+  },[tw.variant]);
+
+  useEffect(()=>{
+    window.addEventListener('message',e=>{
+      if(e.data?.type==='__activate_edit_mode') sTwVis(true);
+      if(e.data?.type==='__deactivate_edit_mode') sTwVis(false);
+    });
+    window.parent.postMessage({type:'__edit_mode_available'},'*');
+  },[]);
+
+  const set=(k,v)=>{
+    const n={...tw,[k]:v};
+    sTw(n);
+    window.parent.postMessage({type:'__edit_mode_set_keys',edits:n},'*');
+  };
+
+  const hero = {
+    motorsport:<HeroMotorsport/>,
+    technical: <HeroTechnical/>,
+    premium:   <HeroPremium/>,
+    minimal:   <HeroMinimal/>,
+  }[tw.variant]||<HeroMotorsport/>;
+
+  return(
+    <>
+    {/* NAV */}
+    <nav className="nav">
+      <div className="nav-in">
+        <div className="logo-box">
+          <img src="uploads/logo-mrc-simple.png" alt="MRC Sport"/>
+        </div>
+        <ul className="nav-links">
+          {[['#servicios','Servicios'],['#nosotros','Nosotros'],['#precios','Precios'],['#testimonios','Reseñas'],['#contacto','Contacto']].map(([h,l])=>(
+            <li key={h}><a href={h}>{l}</a></li>
+          ))}
+        </ul>
+        <a href={WA} target="_blank" className="cta-sm">WhatsApp</a>
+      </div>
+    </nav>
+
+    {/* HERO */}
+    {hero}
+
+    {/* BRAND MARQUEE */}
+    <BrandMarquee variant={tw.variant}/>
+
+    {/* SERVICIOS */}
+    <section id="servicios" style={{padding:'96px 0',background:'var(--bg)'}}>
+      <div className="wrap" style={{marginBottom:'56px'}}>
+        <div className="lbl">Nuestros servicios</div>
+        <h2 className="sec-title">TODO LO QUE<br/>TU COCHE NECESITA</h2>
+      </div>
+
+      {/* DESKTOP: featured + secondary */}
+      <div className="svc-desktop">
+        {/* Top 3 featured */}
+        <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'2px',background:'var(--border)'}}>
+          {[SERVICES[0],SERVICES[4],SERVICES[7]].map((s,i)=>{
+            const nums=['01','05','08'];
+            return(
+              <div key={s.c} style={{background:'var(--card)',padding:'48px 40px 40px',position:'relative',overflow:'hidden',minHeight:'280px',display:'flex',flexDirection:'column',justifyContent:'flex-end',transition:'background .2s',cursor:'default'}}
+                onMouseEnter={e=>e.currentTarget.style.background='var(--bg2)'}
+                onMouseLeave={e=>e.currentTarget.style.background='var(--card)'}>
+                <div style={{position:'absolute',top:'-20px',right:'16px',fontFamily:'Barlow Condensed',fontWeight:900,fontSize:'160px',color:'var(--accent)',opacity:.05,lineHeight:1,userSelect:'none',pointerEvents:'none'}}>{nums[i]}</div>
+                <div style={{fontFamily:'Barlow Condensed',fontSize:'13px',fontWeight:700,letterSpacing:'.22em',color:'var(--accent)',marginBottom:'14px',display:'flex',alignItems:'center',gap:'10px'}}>
+                  <span>{nums[i]}</span><div style={{height:'1px',width:'28px',background:'var(--accent)',opacity:.4}}/>
+                </div>
+                <h3 style={{fontFamily:'Barlow Condensed',fontSize:'32px',fontWeight:900,textTransform:'uppercase',letterSpacing:'.01em',color:'var(--text)',lineHeight:1.0,marginBottom:'14px'}}>{s.t}</h3>
+                <p style={{color:'var(--muted)',fontSize:'15px',lineHeight:1.65,marginBottom:'24px',flex:1}}>{s.d}</p>
+                <a href={WA} target="_blank" style={{display:'inline-flex',alignItems:'center',gap:'8px',fontFamily:'Barlow Condensed',fontSize:'15px',fontWeight:700,letterSpacing:'.1em',color:'var(--accent)',textDecoration:'none',textTransform:'uppercase',transition:'gap .2s'}}
+                  onMouseEnter={e=>e.currentTarget.style.gap='12px'}
+                  onMouseLeave={e=>e.currentTarget.style.gap='8px'}>
+                  Solicitar cita <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </a>
+              </div>
+            );
+          })}
+        </div>
+        {/* Secondary 6 compact */}
+        <div style={{display:'grid',gridTemplateColumns:'repeat(6,1fr)',gap:'2px',background:'var(--border)',marginTop:'2px'}}>
+          {[SERVICES[1],SERVICES[2],SERVICES[3],SERVICES[5],SERVICES[6],SERVICES[8]].map((s,i)=>{
+            const nums=['02','03','04','06','07','09'];
+            return(
+              <div key={s.c} style={{background:'var(--bg2)',padding:'28px 24px',position:'relative',transition:'background .2s',cursor:'default'}}
+                onMouseEnter={e=>e.currentTarget.style.background='var(--bg3)'}
+                onMouseLeave={e=>e.currentTarget.style.background='var(--bg2)'}>
+                <div style={{fontFamily:'Barlow Condensed',fontSize:'11px',fontWeight:700,letterSpacing:'.2em',color:'var(--accent)',marginBottom:'10px',opacity:.7}}>{nums[i]}</div>
+                <h4 style={{fontFamily:'Barlow Condensed',fontSize:'17px',fontWeight:800,textTransform:'uppercase',letterSpacing:'.02em',color:'var(--text)',lineHeight:1.1,marginBottom:'8px'}}>{s.t}</h4>
+                <a href={WA} target="_blank" style={{fontFamily:'Barlow Condensed',fontSize:'12px',fontWeight:700,letterSpacing:'.1em',color:'var(--accent)',textDecoration:'none',textTransform:'uppercase',opacity:.7}}>→ Cita</a>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* MOBILE: compact list */}
+      <div className="svc-mobile wrap">
+        {SERVICES.map((s,i)=>(
+          <a key={s.c} href={WA} target="_blank" style={{display:'flex',alignItems:'center',gap:'14px',padding:'15px 0',borderBottom:'1px solid var(--border)',textDecoration:'none',transition:'background .15s'}}>
+            <span style={{fontFamily:'Barlow Condensed',fontSize:'12px',fontWeight:700,letterSpacing:'.12em',color:'var(--accent)',width:'26px',flexShrink:0}}>{String(i+1).padStart(2,'0')}</span>
+            <span style={{fontFamily:'Barlow Condensed',fontSize:'19px',fontWeight:800,textTransform:'uppercase',letterSpacing:'.02em',color:'var(--text)',flex:1,lineHeight:1}}>{s.t}</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{flexShrink:0,color:'var(--muted)'}}><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    {/* POR QUÉ */}
+    <section id="nosotros" className="sec-porq" style={{background:'var(--bg2)'}}>
+      <div className="wrap" style={{marginBottom:'48px'}}>
+        <div className="lbl">Por qué MRC Sport</div>
+        <h2 className="sec-title">CONFIANZA QUE<br/>SE DEMUESTRA</h2>
+      </div>
+      <div style={{maxWidth:'1240px',margin:'0 auto'}}>
+        <div className="pillars">
+          {PILLARS.map(p=>(
+            <div key={p.n} className="pillar">
+              <span className="p-num">{p.n}</span>
+              <h3 style={{fontFamily:'Barlow Condensed',fontSize:'26px',fontWeight:900,textTransform:'uppercase',color:'var(--text)',marginBottom:'12px',letterSpacing:'.03em'}}>{p.t}</h3>
+              <p style={{color:'var(--muted)',fontSize:'15px',lineHeight:1.7}}>{p.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* ANTES / DESPUÉS */}
+    <section className="ba-section" style={{background:'var(--bg)',padding:'96px 0'}}>
+      <div className="wrap" style={{marginBottom:'44px'}}>
+        <div className="lbl">Resultados reales</div>
+        <h2 className="sec-title">ANTES &amp;<br/>DESPUÉS</h2>
+        <p style={{color:'var(--muted)',maxWidth:'520px',fontSize:'16px',lineHeight:1.7}}>
+          Ford Sierra RS Cosworth — restauración completa de carrocería, pintura y preparación deportiva. Arrastra el divisor para comparar el resultado.
+        </p>
+      </div>
+      <BeforeAfter/>
+    </section>
+
+    {/* PROCESO / TRABAJOS */}
+    <section className="sec-proceso" style={{background:'var(--bg2)'}}>
+      <div className="wrap" style={{marginBottom:'44px'}}>
+        <div className="lbl">Nuestro trabajo</div>
+        <h2 className="sec-title">EL PROCESO,<br/>PASO A PASO</h2>
+        <p style={{color:'var(--muted)',maxWidth:'480px',fontSize:'16px',lineHeight:1.7}}>
+          Documentamos cada intervención. Transparencia total en cada paso del proceso, desde la recepción hasta la entrega.
+        </p>
+      </div>
+      <div className="wrap">
+        <div className="proc-main" style={{display:'grid',gridTemplateColumns:'2fr 1fr',gap:'4px',height:'560px'}}>
+          <div className="proc-main-img" style={{position:'relative',overflow:'hidden',borderRadius:'var(--radius)'}}>
+            <img src="uploads/Gemini_Generated_Image_8tzpj98tzpj98tzp (1).png" alt="MRC Sport taller" style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:'center'}}/>
+            <div style={{position:'absolute',inset:0,background:'linear-gradient(to top, rgba(0,0,0,.7) 0%, transparent 50%)'}}/>
+            <div style={{position:'absolute',bottom:'20px',left:'24px'}}>
+              <div style={{fontFamily:'Barlow Condensed',fontSize:'22px',fontWeight:900,color:'#fff',textTransform:'uppercase',letterSpacing:'.04em'}}>Instalaciones MRC Sport</div>
+              <div style={{fontSize:'13px',color:'rgba(255,255,255,.6)',marginTop:'4px',letterSpacing:'.08em'}}>Ontinyent, Valencia</div>
+            </div>
+          </div>
+          <div className="proc-side" style={{display:'grid',gridTemplateRows:'1fr 1fr',gap:'4px'}}>
+            <div style={{position:'relative',overflow:'hidden',borderRadius:'var(--radius)'}}>
+              <div style={{width:'100%',height:'100%',backgroundImage:`url('https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=600&q=80&auto=format&fit=crop')`,backgroundSize:'cover',backgroundPosition:'center'}}/>
+              <div style={{position:'absolute',inset:0,background:'linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 60%)'}}/>
+              <div style={{position:'absolute',bottom:'12px',left:'14px',fontFamily:'Barlow Condensed',fontSize:'15px',fontWeight:800,color:'#fff',letterSpacing:'.08em',textTransform:'uppercase'}}>Diagnóstico</div>
+            </div>
+            <div style={{position:'relative',overflow:'hidden',borderRadius:'var(--radius)'}}>
+              <div style={{width:'100%',height:'100%',backgroundImage:`url('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=600&q=80&auto=format&fit=crop')`,backgroundSize:'cover',backgroundPosition:'center'}}/>
+              <div style={{position:'absolute',inset:0,background:'linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 60%)'}}/>
+              <div style={{position:'absolute',bottom:'12px',left:'14px',fontFamily:'Barlow Condensed',fontSize:'15px',fontWeight:800,color:'#fff',letterSpacing:'.08em',textTransform:'uppercase'}}>Mecánica</div>
+            </div>
+          </div>
+        </div>
+        {/* Bottom row */}
+        <div className="proc-bottom" style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'4px',marginTop:'4px',height:'220px'}}>
+          {[
+            ['https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&auto=format&fit=crop','Carrocería y Pintura'],
+            ['https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&q=80&auto=format&fit=crop','Tuning & Preparación'],
+            ['https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=600&q=80&auto=format&fit=crop','Neumáticos'],
+          ].map(([src,lbl])=>(
+            <div key={lbl} style={{position:'relative',overflow:'hidden',borderRadius:'var(--radius)'}}>
+              <div style={{width:'100%',height:'100%',backgroundImage:`url('${src}')`,backgroundSize:'cover',backgroundPosition:'center'}}/>
+              <div style={{position:'absolute',inset:0,background:'linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 65%)'}}/>
+              <div style={{position:'absolute',bottom:'12px',left:'14px',fontFamily:'Barlow Condensed',fontSize:'15px',fontWeight:800,color:'#fff',letterSpacing:'.08em',textTransform:'uppercase'}}>{lbl}</div>
+            </div>
+          ))}
+        </div>
+        <p style={{color:'var(--muted)',fontSize:'12px',marginTop:'12px',letterSpacing:'.1em',textAlign:'center',textTransform:'uppercase'}}>
+          Añade aquí fotos reales de trabajos para máximo impacto comercial
+        </p>
+      </div>
+    </section>
+
+    {/* PRECIOS */}
+    {tw.showPrices&&(
+      <section id="precios">
+        <div className="wrap" style={{marginBottom:'48px'}}>
+          <div className="lbl">Tarifas orientativas</div>
+          <h2 className="sec-title">PRECIOS CLAROS,<br/>SIN SORPRESAS</h2>
+          <p style={{color:'var(--muted)',maxWidth:'480px',fontSize:'16px',lineHeight:1.7}}>
+            Precios orientativos IVA incluido. Solicita tu presupuesto personalizado y gratuito — nunca trabajamos sin aprobación previa.
+          </p>
+        </div>
+        <div style={{maxWidth:'1240px',margin:'0 auto'}}>
+          <div className="price-grid">
+            {PRICES.map(p=>(
+              <div key={p.label} className="price-cell">
+                <div className="p-from">{p.from}</div>
+                <div className="p-amt">{p.amt}<span className="p-unit">{p.unit}</span></div>
+                <div className="p-name">{p.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="wrap" style={{textAlign:'center',marginTop:'32px'}}>
+          <a href={WA} target="_blank" className="btn">Solicitar presupuesto gratis</a>
+        </div>
+      </section>
+    )}
+
+    {/* TESTIMONIOS */}
+    <section id="testimonios">
+      <div className="wrap" style={{marginBottom:'44px'}}>
+        <div className="lbl">Reseñas de clientes</div>
+        <h2 className="sec-title">LO QUE DICEN<br/>NUESTROS CLIENTES</h2>
+      </div>
+      <div className="wrap">
+        <div className="testi-grid">
+          {TESTIMONIALS.map(t=>(
+            <div key={t.name} className="testi">
+              <div className="stars">★★★★★</div>
+              <p style={{color:'var(--text)',fontSize:'15px',lineHeight:1.75,marginBottom:'18px'}}>{t.txt}</p>
+              <div>
+                <div style={{fontFamily:'Barlow Condensed',fontWeight:800,fontSize:'18px',textTransform:'uppercase',letterSpacing:'.05em'}}>{t.name}</div>
+                <div style={{fontSize:'13px',color:'var(--accent)',letterSpacing:'.08em',marginTop:'2px'}}>{t.car}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* FAQ */}
+    <section style={{background:'var(--bg2)'}}>
+      <div className="wrap">
+        <div className="faq-two-col" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'80px',alignItems:'start'}}>
+          <div className="faq-intro">
+            <div className="lbl">Preguntas frecuentes</div>
+            <h2 className="sec-title">RESOLVEMOS<br/>TUS DUDAS</h2>
+            <p style={{color:'var(--muted)',lineHeight:1.75,marginTop:'16px',fontSize:'16px'}}>¿No encuentras lo que buscas? Escríbenos por WhatsApp y te contestamos al momento.</p>
+            <a href={WA} target="_blank" className="btn" style={{marginTop:'28px',display:'inline-flex'}}><WaIcon/>Preguntar</a>
+          </div>
+          <div>
+            {FAQS.map(f=><FAQItem key={f.q} {...f}/>)}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* CONTACTO */}
+    <section id="contacto">
+      <div className="wrap" style={{marginBottom:'44px'}}>
+        <div className="lbl">Contacto</div>
+        <h2 className="sec-title">ESTAMOS EN<br/>ONTINYENT</h2>
+      </div>
+      <div className="wrap">
+        <div className="contact-grid">
+          {/* Left: info + map */}
+          <div>
+            {[
+              {c:'DIR',t:'Dirección',body:<span style={{color:'var(--muted)',fontSize:'15px',lineHeight:1.8}}>Avda. Textil, 51-A<br/>46870 Ontinyent (Valencia)</span>},
+              {c:'TEL',t:'Teléfono',body:<div><a href={TEL} style={{color:'var(--accent)',fontSize:'24px',fontFamily:'Barlow Condensed',fontWeight:800,textDecoration:'none'}}>96 291 64 96</a><br/><a href="tel:+34678732866" style={{color:'var(--muted)',fontSize:'16px',fontFamily:'Barlow Condensed',textDecoration:'none'}}>678 732 866 (WhatsApp)</a></div>},
+              {c:'HOR',t:'Horario',body:<span style={{color:'var(--muted)',fontSize:'15px',lineHeight:1.8}}>Lun – Vie<br/><strong style={{color:'var(--text)'}}>8:30–13:30 / 15:30–19:00</strong><br/><span style={{fontSize:'13px',color:'var(--accent)'}}>Sábados y domingos cerrado</span></span>},
+              {c:'EML',t:'Email',body:<a href="mailto:mrc@mrck.es" style={{color:'var(--muted)',textDecoration:'none',fontSize:'15px'}}>mrc@mrck.es</a>},
+            ].map(({c,t,body})=>(
+              <div key={c} className="info-row">
+                <div className="info-ico">{c}</div>
+                <div>
+                  <div style={{fontFamily:'Barlow Condensed',fontWeight:700,fontSize:'17px',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:'4px'}}>{t}</div>
+                  {body}
+                </div>
+              </div>
+            ))}
+              <div style={{marginTop:'16px',padding:'14px 18px',background:'rgba(208,0,42,.08)',border:'1px solid rgba(208,0,42,.2)',borderRadius:'var(--radius)',display:'flex',alignItems:'center',gap:'14px'}}>
+                <div style={{fontFamily:'Barlow Condensed',fontSize:'12px',fontWeight:700,letterSpacing:'.18em',color:'var(--accent)',whiteSpace:'nowrap'}}>URGENCIAS</div>
+                <div style={{fontSize:'14px',color:'var(--muted)',lineHeight:1.5}}>¿Avería en carretera? Llámanos al <a href={TEL} style={{color:'var(--accent)',fontWeight:700,textDecoration:'none'}}>96 291 64 96</a> — atendemos emergencias.</div>
+              </div>
+
+            <div style={{height:'280px',overflow:'hidden',border:'1px solid var(--border)',borderRadius:'var(--radius)',marginTop:'8px'}}>
+              <iframe className="map-frame" src={MAP} title="MRC Sport" allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"/>
+            </div>
+          </div>
+          {/* Right: form */}
+          <div>
+            <div style={{background:'var(--card)',border:'1px solid var(--border)',padding:'36px',borderRadius:'var(--radius)'}}>
+              <h3 style={{fontFamily:'Barlow Condensed',fontSize:'28px',fontWeight:900,textTransform:'uppercase',letterSpacing:'.02em',marginBottom:'6px'}}>Solicitar cita</h3>
+              <p style={{color:'var(--muted)',fontSize:'14px',marginBottom:'26px',lineHeight:1.6}}>
+                Te contactamos en menos de 24h. O si prefieres, escríbenos directamente por WhatsApp.
+              </p>
+              {sent?(
+                <div style={{textAlign:'center',padding:'40px 0'}}>
+                  <div style={{fontFamily:'Barlow Condensed',fontSize:'28px',fontWeight:900,color:'var(--accent)',marginBottom:'12px'}}>¡MENSAJE ENVIADO!</div>
+                  <p style={{color:'var(--muted)'}}>Te contactaremos en breve. ¡Gracias por confiar en MRC Sport!</p>
+                  <a href={WA} target="_blank" className="btn" style={{marginTop:'22px',display:'inline-flex'}}><WaIcon/>WhatsApp</a>
+                </div>
+              ):(
+                <form onSubmit={e=>{e.preventDefault();sSent(true);}}>
+                  {[['Nombre *','text','Tu nombre','nombre'],['Teléfono *','tel','Tu teléfono','telefono'],['Vehículo','text','Marca, modelo y año','vehiculo']].map(([lbl,type,ph,key])=>(
+                    <div key={key} style={{marginBottom:'14px'}}>
+                      <label className="form-lbl">{lbl}</label>
+                      <input className="form-inp" type={type} placeholder={ph} value={form[key]} onChange={e=>sForm({...form,[key]:e.target.value})} required={lbl.includes('*')}/>
+                    </div>
+                  ))}
+                  <div style={{marginBottom:'14px'}}>
+                    <label className="form-lbl">¿Qué necesitas? *</label>
+                    <textarea className="form-inp" placeholder="Describe la avería o el servicio que necesitas..." value={form.mensaje} onChange={e=>sForm({...form,mensaje:e.target.value})} required/>
+                  </div>
+                  <button type="submit" className="btn" style={{width:'100%',justifyContent:'center',fontSize:'20px',padding:'15px'}}>
+                    Enviar consulta
+                  </button>
+                  <div style={{textAlign:'center',marginTop:'14px'}}>
+                    <span style={{color:'var(--muted)',fontSize:'13px'}}>o si prefieres — </span>
+                    <a href={WA} target="_blank" style={{color:'var(--accent)',fontSize:'13px',fontWeight:600,textDecoration:'none'}}>escríbenos por WhatsApp</a>
+                  </div>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* FOOTER */}
+    <footer className="footer">
+      <div className="wrap">
+        <div className="footer-grid">
+          <div className="footer-col-brand">
+            <div className="logo-box" style={{marginBottom:'16px',display:'inline-flex'}}>
+              <img src="uploads/logo-mrc-simple.png" alt="MRC Sport" style={{height:'34px'}}/>
+            </div>
+            <p style={{color:'var(--muted)',fontSize:'15px',lineHeight:1.7,maxWidth:'280px'}}>
+              Tu taller de confianza en Ontinyent. Mecánica, carrocería, neumáticos y preparación deportiva desde 2010.
+            </p>
+          </div>
+          <div className="footer-col-svc">
+            <div style={{fontFamily:'Barlow Condensed',fontSize:'15px',fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase',marginBottom:'14px',color:'var(--text)'}}>Servicios</div>
+            {['Mecánica General','Cambio de Aceite','Neumáticos','Revisión Pre-ITV','Carrocería','Tuning & Preparación'].map(s=>(
+              <div key={s} style={{color:'var(--muted)',fontSize:'14px',marginBottom:'7px'}}>{s}</div>
+            ))}
+          </div>
+          <div className="footer-col-contact">
+            <div style={{fontFamily:'Barlow Condensed',fontSize:'15px',fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase',marginBottom:'14px',color:'var(--text)'}}>Contacto</div>
+            <div style={{color:'var(--muted)',fontSize:'14px',lineHeight:2}}>
+              <div>Avda. Textil, 51-A</div>
+              <div>46870 Ontinyent (Valencia)</div>
+              <div><a href={TEL} style={{color:'var(--accent)',textDecoration:'none',fontWeight:600}}>96 291 64 96</a></div>
+              <div><a href="tel:+34678732866" style={{color:'var(--muted)',textDecoration:'none'}}>678 732 866</a></div>
+              <div><a href="mailto:mrc@mrck.es" style={{color:'var(--muted)',textDecoration:'none'}}>mrc@mrck.es</a></div>
+            </div>
+          </div>
+        </div>
+        <div className="footer-bottom" style={{borderTop:'1px solid var(--border)',paddingTop:'22px',display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:'14px'}}>
+          <div style={{color:'var(--muted)',fontSize:'13px'}}>© 2025 MRC Sport. Todos los derechos reservados.</div>
+          <a href={WA} target="_blank" className="btn" style={{fontSize:'15px',padding:'10px 22px'}}><WaIcon/>WhatsApp</a>
+        </div>
+      </div>
+    </footer>
+
+    {/* WA FAB */}
+    <a href={WA} target="_blank" className="wa-fab" title="Contactar por WhatsApp">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+
+    {/* VARIANT SWITCHER — always visible */}
+    <div className="var-sw" style={{
+      position:'fixed',bottom:'26px',left:'50%',transform:'translateX(-50%)',
+      zIndex:300,display:'flex',alignItems:'center',gap:'6px',
+      background:'rgba(10,10,10,0.92)',border:'1px solid rgba(255,255,255,0.12)',
+      backdropFilter:'blur(14px)',padding:'8px 10px',borderRadius:'40px',
+      boxShadow:'0 4px 24px rgba(0,0,0,0.6)'
+    }}>
+      <span style={{fontFamily:'Barlow Condensed',fontSize:'11px',fontWeight:700,letterSpacing:'.18em',color:'rgba(255,255,255,0.4)',textTransform:'uppercase',paddingRight:'6px',paddingLeft:'4px',whiteSpace:'nowrap'}}>Variante</span>
+      {VARIANTS.map(v=>(
+        <button key={v.id} onClick={()=>set('variant',v.id)} style={{
+          padding:'7px 16px',borderRadius:'30px',border:'none',cursor:'pointer',
+          fontFamily:'Barlow Condensed',fontSize:'14px',fontWeight:700,letterSpacing:'.06em',
+          textTransform:'uppercase',transition:'all .2s',whiteSpace:'nowrap',
+          background: tw.variant===v.id ? 'var(--accent)' : 'rgba(255,255,255,0.06)',
+          color: tw.variant===v.id ? '#fff' : 'rgba(255,255,255,0.5)',
+        }}>{v.lbl}</button>
+      ))}
+    </div>
+
+    {/* TWEAKS */}
+    {twVis&&(
+      <div className="tw-panel">
+        <div className="tw-h">Tweaks</div>
+        <span className="tw-lbl">Variante de diseño</span>
+        {VARIANTS.map(v=>(
+          <button key={v.id} className={`tw-btn ${tw.variant===v.id?'on':''}`} onClick={()=>set('variant',v.id)}>{v.lbl}</button>
+        ))}
+        <div className="tw-div"/>
+        <span className="tw-lbl">Sección de precios</span>
+        <button className={`tw-btn ${tw.showPrices?'on':''}`} onClick={()=>set('showPrices',!tw.showPrices)}>
+          {tw.showPrices?'✓ Visible':'Oculta'}
+        </button>
+      </div>
+    )}
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
